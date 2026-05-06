@@ -13,33 +13,37 @@ public class BreadthFirstSearch {
         }
     }
 
-    // BFS recursive function
-    public static void bfsRecursive(ArrayList<Edge>[] graph, Queue<Integer> q, boolean[] vis) {
+    public static void bfs(ArrayList<Edge>[] graph, int start, int v) {
 
-        if (q.isEmpty()) {
-            return;
-        }
+        boolean[] vis = new boolean[v];
+        Queue<Integer> q = new LinkedList<>();
 
-        int curr = q.poll();
-        System.out.print(curr + " ");
+        // start BFS
+        vis[start] = true;
+        q.add(start);
 
-        for (int i = 0; i < graph[curr].size(); i++) {
-            Edge e = graph[curr].get(i);
+        System.out.println("BFS Traversal:");
 
-            if (!vis[e.dest]) {
-                vis[e.dest] = true;
-                q.add(e.dest);
+        while (!q.isEmpty()) {
+
+            int curr = q.poll();
+            System.out.print(curr + " ");
+
+            for (int i = 0; i < graph[curr].size(); i++) {
+                Edge e = graph[curr].get(i);
+
+                if (!vis[e.dest]) {
+                    vis[e.dest] = true;
+                    q.add(e.dest);
+                }
             }
         }
-
-        bfsRecursive(graph, q, vis);
     }
 
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
 
-        // Input vertices and edges
         System.out.print("Enter number of vertices: ");
         int v = sc.nextInt();
 
@@ -49,7 +53,6 @@ public class BreadthFirstSearch {
         @SuppressWarnings("unchecked")
         ArrayList<Edge>[] graph = new ArrayList[v];
 
-        // Initialize adjacency list
         for (int i = 0; i < v; i++) {
             graph[i] = new ArrayList<>();
         }
@@ -68,16 +71,7 @@ public class BreadthFirstSearch {
         System.out.print("Enter starting vertex: ");
         int start = sc.nextInt();
 
-        // BFS setup
-        boolean[] vis = new boolean[v];
-        Queue<Integer> q = new LinkedList<>();
-
-        // start BFS
-        vis[start] = true;
-        q.add(start);
-
-        System.out.println("BFS Traversal:");
-        bfsRecursive(graph, q, vis);
+        bfs(graph, start, v);
 
         sc.close();
     }
